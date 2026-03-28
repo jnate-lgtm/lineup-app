@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Maine Lightning Lineup App Pro</title>
+<style>
+:root{--navy:#14365d;--gold:#d4a73a;--bg:#f4f7fb;--card:#fff;--line:#d9e2ec;--text:#1f2937;--muted:#6b7280;--red:#b91c1c}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
+.wrap{max-width:980px;margin:0 auto;padding:16px 14px 40px}
+.hero{background:linear-gradient(180deg,var(--navy),#214d7f);color:#fff;border-radius:18px;padding:18px 16px;box-shadow:0 8px 24px rgba(22,58,99,.18);margin-bottom:14px}
+.hero h1{margin:0 0 6px;font-size:24px;line-height:1.15} .hero p{margin:0;font-size:14px;opacity:.95}
+.tabbar{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0 16px}
+.tabbtn{border:0;border-radius:12px;padding:12px 8px;background:#e8eef5;color:var(--navy);font-weight:700;font-size:14px}
+.tabbtn.active{background:var(--gold);color:#111827}
+.tab{display:none} .tab.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);margin-bottom:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px} .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px} .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:5px}
+input,select{width:100%;border:1px solid #cfd8e3;border-radius:10px;padding:11px 12px;font-size:16px;background:#fff}
+.row{display:grid;grid-template-columns:52px 1.2fr .7fr .7fr auto;gap:8px;align-items:center;margin-bottom:8px}
+.row.header{font-size:12px;font-weight:800;color:var(--muted);margin-bottom:6px}
+.num{text-align:center;font-weight:800;color:var(--navy);background:#eef4fb;border:1px solid var(--line);padding:11px 0;border-radius:10px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.btn{border:0;border-radius:12px;padding:12px 14px;font-size:15px;font-weight:800;cursor:pointer}
+.btn.primary{background:var(--navy);color:#fff} .btn.gold{background:var(--gold);color:#111827} .btn.light{background:#eef4fb;color:var(--navy)} .btn.danger{background:var(--red);color:#fff} .btn.green{background:#1f7a3f;color:#fff} .mini{padding:10px 12px;font-size:14px}
+.pill{display:inline-block;background:#eef4fb;color:var(--navy);font-weight:800;border-radius:999px;padding:6px 10px;font-size:12px;margin-bottom:8px}
+.field{position:relative;background:linear-gradient(180deg,#dff1d8,#c8e6bf);border-radius:18px;min-height:520px;overflow:hidden;border:1px solid #b7d6ae}
+.diamond{position:absolute;left:50%;top:56%;width:170px;height:170px;transform:translate(-50%,-50%) rotate(45deg);border:4px solid #b77f2e;background:#ead7a8;border-radius:10px}
+.outfield-arc{position:absolute;left:50%;top:19%;width:78%;height:48%;transform:translateX(-50%);border:5px solid #8db67c;border-bottom:0;border-radius:500px 500px 0 0;opacity:.85}
+.base{position:absolute;width:18px;height:18px;background:#fff;border:2px solid #8b5e1a;transform:rotate(45deg)}
+.home{left:50%;bottom:108px;transform:translateX(-50%) rotate(45deg)} .first{right:31%;bottom:193px} .second{left:50%;top:179px;transform:translateX(-50%) rotate(45deg)} .third{left:31%;bottom:193px}
+.pos{position:absolute;width:110px;transform:translate(-50%,-50%);text-align:center} .pos small{display:block;font-weight:800;color:var(--navy);margin-bottom:5px} .pos select{background:#ffffffd9}
+.p{left:50%;top:56%} .c{left:50%;top:79%} .fb{left:72%;top:58%} .sb{left:61%;top:41%} .tb{left:28%;top:58%} .ss{left:39%;top:41%} .lf{left:21%;top:23%} .cf{left:50%;top:15%} .rf{left:79%;top:23%}
+.roster-list{display:grid;gap:8px} .player-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+.summary-box,.print-box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}
+.table{display:grid;gap:8px} .table .trow{display:grid;grid-template-columns:58px 1fr repeat(9,90px);gap:6px;align-items:center} .table .trow.head{font-size:12px;font-weight:800;color:var(--muted)}
+.tcell{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff;min-height:44px}
+.dugout-card{background:#fff;border:2px solid var(--navy);border-radius:16px;padding:14px}
+.dc-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border-bottom:2px solid var(--gold);padding-bottom:10px;margin-bottom:10px}
+.dc-title{font-size:20px;font-weight:900;color:var(--navy)} .dc-meta{font-size:13px;color:var(--muted)} .dc-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:12px}
+.dc-line{display:grid;grid-template-columns:34px 1fr 56px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)} .center{text-align:center} .footer-note,.print-note,.sub{font-size:12px;color:var(--muted);margin-top:10px}
+@media (max-width:860px){.tabbar{grid-template-columns:repeat(3,1fr)} .grid2,.grid3,.summary-grid,.dc-grid{grid-template-columns:1fr} .row{grid-template-columns:44px 1fr .72fr .72fr} .table .trow{grid-template-columns:58px 1fr repeat(9,110px);overflow-x:auto}}
+@media (max-width:700px){.row{grid-template-columns:44px 1fr .72fr auto} .row .benchnote,.row.header .benchnote{display:none} .field{min-height:500px} .pos{width:92px} .hero h1{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="hero"><h1>Maine Lightning Lineup App Pro</h1><p>Preloaded with your 10U roster.</p></div>
+
+<div class="tabbar">
+<button class="tabbtn active" data-tab="setup">Setup</button>
+<button class="tabbtn" data-tab="lineup">Lineup</button>
+<button class="tabbtn" data-tab="field">Field</button>
+<button class="tabbtn" data-tab="rotations">Rotations</button>
+<button class="tabbtn" data-tab="dugout">Dugout Card</button>
+<button class="tabbtn" data-tab="summary">Summary</button>
+</div>
+
+<section class="tab active" id="setup">
+<div class="card">
+<span class="pill">Game Info</span>
+<div class="grid3">
+<div><label>Team</label><input id="teamName" value="Maine Lightning 10U Elite Navy"></div>
+<div><label>Opponent</label><input id="opponent" placeholder="Enter opponent"></div>
+<div><label>Date</label><input id="gameDate" type="date"></div>
+<div><label>Time</label><input id="gameTime" type="time"></div>
+<div><label>Location</label><input id="location" placeholder="Field / town"></div>
+<div><label>Number of innings</label><select id="inningCount"><option>6</option><option>5</option><option>7</option></select></div>
+</div>
+<div style="margin-top:10px"><label>Game Notes</label><input id="gameNotes" placeholder="Optional"></div>
+</div>
+
+<div class="card">
+<span class="pill">Roster</span>
+<p class="sub">Your 10U Maine Lightning roster is already loaded.</p>
+<div id="rosterList" class="roster-list"></div>
+<div class="actions">
+<button class="btn light mini" id="addPlayerBtn">Add Player</button>
+<button class="btn gold mini" id="resetRosterBtn">Reset to Team Roster</button>
+</div>
+</div>
+</section>
+
+<section class="tab" id="lineup"><div class="card"><span class="pill">Batting Order</span><div class="row header"><div>Spot</div><div>Player</div><div>Pos</div><div class="benchnote">Bench/Injury</div><div></div></div><div id="lineupRows"></div></div></section>
+
+<section class="tab" id="field">
+<div class="card">
+<span class="pill">Starting Defense</span>
+<div class="field">
+<div class="outfield-arc"></div><div class="diamond"></div><div class="base home"></div><div class="base first"></div><div class="base second"></div><div class="base third"></div>
+<div class="pos lf"><small>LF</small><select id="pos_lf"></select></div>
+<div class="pos cf"><small>CF</small><select id="pos_cf"></select></div>
+<div class="pos rf"><small>RF</small><select id="pos_rf"></select></div>
+<div class="pos ss"><small>SS</small><select id="pos_ss"></select></div>
+<div class="pos sb"><small>2B</small><select id="pos_2b"></select></div>
+<div class="pos tb"><small>3B</small><select id="pos_3b"></select></div>
+<div class="pos fb"><small>1B</small><select id="pos_1b"></select></div>
+<div class="pos p"><small>P</small><select id="pos_p"></select></div>
+<div class="pos c"><small>C</small><select id="pos_c"></select></div>
+</div>
+<div class="actions"><button class="btn primary" id="copyStartToInning1">Copy starting defense to Inning 1</button></div>
+</div>
+</section>
+
+<section class="tab" id="rotations">
+<div class="card"><span class="pill">Inning-by-Inning Defensive Rotations</span><div class="actions"><button class="btn light mini" id="buildRotationBtn">Build innings</button><button class="btn green mini" id="autoBenchBtn">Auto-fill bench fairly</button></div><div id="rotationWrap" class="table"></div></div>
+<div class="card"><span class="pill">Bench Tracking</span><div id="benchSummary" class="grid2"></div></div>
+</section>
+
+<section class="tab" id="dugout"><div class="card"><span class="pill">Printable Dugout Card</span><div class="actions"><button class="btn primary" onclick="window.print()">Print / Save PDF</button></div><div id="dugoutCard" class="dugout-card"></div></div></section>
+
+<section class="tab" id="summary">
+<div class="card">
+<span class="pill">Game Summary</span>
+<div class="summary-grid"><div class="summary-box"><h3>Game</h3><div id="summaryGame"></div></div><div class="summary-box"><h3>Starting Defense</h3><ul id="summaryDefense"></ul></div></div>
+<div class="summary-box" style="margin-top:10px;"><h3>Batting Order</h3><ol id="summaryLineup"></ol></div>
+<div class="actions"><button class="btn primary" id="saveBtn">Save</button><button class="btn light" id="exportBtn">Export Backup</button><button class="btn light" id="importBtn">Import Backup</button><button class="btn danger" id="resetBtn">Reset App</button><input type="file" id="importFile" accept="application/json" style="display:none"></div>
+<div class="footer-note">Open in Safari and Add to Home Screen.</div>
+</div>
+</section>
+</div>
+
+<script>
+const TEAM_ROSTER = ["Alex Peltier", "Gage Nathans", "Greer Nathans", "Carter Holmes", "Will Harrigan", "Adrian Reichl", "Kaden Booth", "Landon Bryant", "Lewis Morrison", "Reese Baxter", "Rob Johnson", "Cam Morse"];
+const STORAGE_KEY = "maine_lightning_lineup_app_pro_v3";
+const POSITIONS = ["P","C","1B","2B","3B","SS","LF","CF","RF"];
+const blankInning = () => ({P:"",C:"","1B":"","2B":"","3B":"","SS":"","LF":"","CF":"","RF":"","bench":""});
+const state = {
+  teamName:"Maine Lightning 10U Elite Navy", opponent:"", gameDate:"", gameTime:"", location:"", inningCount:6, gameNotes:"",
+  roster:[...TEAM_ROSTER],
+  lineup:Array.from({length:12}, (_,i)=>({spot:i+1,player:"",pos:"",status:""})),
+  field:{P:"",C:"","1B":"","2B":"","3B":"","SS":"","LF":"","CF":"","RF":""},
+  innings:Array.from({length:6}, ()=>blankInning())
+};
+function loadState(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||"null"); if(s) Object.assign(state,s);}catch(e){}}
+function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;")}
+function options(selected,list){return list.map(v=>`<option value="${esc(v)}" ${v===selected?"selected":""}>${esc(v||"—")}</option>`).join("")}
+function rosterOptions(blank=true){const r=state.roster.filter(Boolean); return blank?["",...r]:r}
+function ensureInnings(){while(state.innings.length<state.inningCount) state.innings.push(blankInning()); if(state.innings.length>state.inningCount) state.innings=state.innings.slice(0,state.inningCount);}
+function populate(){document.getElementById("teamName").value=state.teamName; document.getElementById("opponent").value=state.opponent; document.getElementById("gameDate").value=state.gameDate; document.getElementById("gameTime").value=state.gameTime; document.getElementById("location").value=state.location; document.getElementById("inningCount").value=String(state.inningCount); document.getElementById("gameNotes").value=state.gameNotes;}
+function collect(){
+  state.teamName=document.getElementById("teamName").value; state.opponent=document.getElementById("opponent").value; state.gameDate=document.getElementById("gameDate").value; state.gameTime=document.getElementById("gameTime").value; state.location=document.getElementById("location").value; state.inningCount=parseInt(document.getElementById("inningCount").value||"6",10); state.gameNotes=document.getElementById("gameNotes").value;
+  state.roster=[...document.querySelectorAll(".roster-input")].map(i=>i.value.trim()).filter(Boolean);
+  state.lineup=[...document.querySelectorAll(".lineup-row")].map((row,idx)=>({spot:idx+1,player:row.querySelector(".lineup-player").value,pos:row.querySelector(".lineup-pos").value,status:row.querySelector(".lineup-status").value}));
+  state.field={P:document.getElementById("pos_p").value,C:document.getElementById("pos_c").value,"1B":document.getElementById("pos_1b").value,"2B":document.getElementById("pos_2b").value,"3B":document.getElementById("pos_3b").value,"SS":document.getElementById("pos_ss").value,"LF":document.getElementById("pos_lf").value,"CF":document.getElementById("pos_cf").value,"RF":document.getElementById("pos_rf").value};
+  state.innings=[...document.querySelectorAll(".inning-row")].map(row=>{const o={}; POSITIONS.forEach(p=>o[p]=row.querySelector(`[data-pos="${p}"]`).value); o.bench=row.querySelector(".inning-bench").value; return o;});
+}
+function save(silent=false){collect(); localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); renderSummary(); renderDugout(); renderBench(); if(!silent) alert("Saved on this device.");}
+function autosave(){collect(); localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); renderSummary(); renderDugout(); renderBench();}
+function renderRoster(){const wrap=document.getElementById("rosterList"); wrap.innerHTML=""; state.roster.forEach((n,i)=>{const row=document.createElement("div"); row.className="player-row"; row.innerHTML=`<input class="roster-input" value="${esc(n)}" placeholder="Player ${i+1}"><button class="btn light mini" data-i="${i}">Remove</button>`; wrap.appendChild(row);}); wrap.querySelectorAll("[data-i]").forEach(b=>b.addEventListener("click",()=>{const i=+b.dataset.i; state.roster.splice(i,1); rerender(); autosave();})); wrap.querySelectorAll(".roster-input").forEach(i=>i.addEventListener("input",()=>{collect(); rerender(); autosave();}));}
+function renderLineup(){const wrap=document.getElementById("lineupRows"); wrap.innerHTML=""; const posOpts=["","P","C","1B","2B","3B","SS","LF","CF","RF","DH","EH"]; const statusOpts=["","Bench","Injured","Unavailable"]; state.lineup.forEach((e,i)=>{const row=document.createElement("div"); row.className="row lineup-row"; row.innerHTML=`<div class="num">${i+1}</div><select class="lineup-player">${options(e.player,rosterOptions())}</select><select class="lineup-pos">${options(e.pos,posOpts)}</select><select class="lineup-status benchnote">${options(e.status,statusOpts)}</select><button class="btn light mini up" ${i===0?"disabled":""}>↑</button>`; wrap.appendChild(row);}); wrap.querySelectorAll("select").forEach(s=>s.addEventListener("change",autosave)); wrap.querySelectorAll(".up").forEach((b,i)=>b.addEventListener("click",()=>{if(i===0)return; const t=state.lineup[i-1]; state.lineup[i-1]=state.lineup[i]; state.lineup[i]=t; rerender(); autosave();}));}
+function renderField(){[["pos_p",state.field.P],["pos_c",state.field.C],["pos_1b",state.field["1B"]],["pos_2b",state.field["2B"]],["pos_3b",state.field["3B"]],["pos_ss",state.field["SS"]],["pos_lf",state.field["LF"]],["pos_cf",state.field["CF"]],["pos_rf",state.field["RF"]]].forEach(([id,val])=>{const s=document.getElementById(id); s.innerHTML=options(val, rosterOptions()); s.onchange=autosave;});}
+function renderRotations(){ensureInnings(); const wrap=document.getElementById("rotationWrap"); wrap.innerHTML=`<div class="trow head"><div>Inning</div><div>Bench</div>${POSITIONS.map(p=>`<div>${p}</div>`).join("")}</div>`; state.innings.forEach((inn,i)=>{const row=document.createElement("div"); row.className="trow inning-row"; row.innerHTML=`<div class="tcell"><strong>${i+1}</strong></div><div><select class="inning-bench">${options(inn.bench, rosterOptions())}</select></div>${POSITIONS.map(p=>`<div><select data-pos="${p}">${options(inn[p], rosterOptions())}</select></div>`).join("")}`; wrap.appendChild(row);}); wrap.querySelectorAll("select").forEach(s=>s.addEventListener("change",autosave));}
+function renderBench(){const wrap=document.getElementById("benchSummary"); const counts={}; state.roster.forEach(n=>counts[n]=0); state.innings.forEach(inn=>{(inn.bench||"").split(",").map(s=>s.trim()).filter(Boolean).forEach(n=>counts[n]=(counts[n]||0)+1);}); wrap.innerHTML=`<div class="summary-box"><h3>Bench Counts</h3>${Object.entries(counts).map(([n,c])=>`<div>${esc(n)}: <strong>${c}</strong></div>`).join("")}</div><div class="summary-box"><h3>Quick View</h3><div class="sub">Bench entries can hold one player or multiple names separated by commas.</div></div>`;}
+function renderSummary(){document.getElementById("summaryGame").innerHTML=`<div><strong>Team:</strong> ${esc(state.teamName)}</div><div><strong>Opponent:</strong> ${esc(state.opponent||"—")}</div><div><strong>Date:</strong> ${esc(state.gameDate||"—")}</div><div><strong>Time:</strong> ${esc(state.gameTime||"—")}</div><div><strong>Location:</strong> ${esc(state.location||"—")}</div><div><strong>Innings:</strong> ${esc(state.inningCount)}</div>`; document.getElementById("summaryDefense").innerHTML=POSITIONS.map(p=>`<li><strong>${p}:</strong> ${esc(state.field[p]||"—")}</li>`).join(""); document.getElementById("summaryLineup").innerHTML=state.lineup.map(x=>`<li>${esc([x.player||"—",x.pos?`(${x.pos})`:"",x.status?`— ${x.status}`:""].filter(Boolean).join(" "))}</li>`).join("");}
+function renderDugout(){const lineup=state.lineup.map((x,i)=>`<div class="dc-line"><div class="center"><strong>${i+1}</strong></div><div>${esc(x.player||"—")}</div><div class="center">${esc(x.pos||"")}</div></div>`).join(""); const def=POSITIONS.map(p=>`<div class="dc-line"><div>${p}</div><div>${esc(state.field[p]||"—")}</div><div></div></div>`).join(""); const innings=state.innings.map((inn,i)=>`<div style="margin:8px 0 0"><strong>Inning ${i+1}:</strong> ${POSITIONS.map(p=>`${p} ${esc(inn[p]||"—")}`).join(" • ")}${inn.bench?` • Bench ${esc(inn.bench)}`:""}</div>`).join(""); document.getElementById("dugoutCard").innerHTML=`<div class="dc-head"><div><div class="dc-title">${esc(state.teamName)}</div><div class="dc-meta">vs ${esc(state.opponent||"—")} • ${esc(state.gameDate||"—")} • ${esc(state.gameTime||"—")} • ${esc(state.location||"—")}</div></div></div><div class="dc-grid"><div class="print-box"><h3>Batting Order</h3>${lineup}</div><div class="print-box"><h3>Starting Defense</h3>${def}</div></div><div class="print-box" style="margin-top:12px"><h3>Inning Plan</h3>${innings}</div>`;}
+function rerender(){ensureInnings(); populate(); renderRoster(); renderLineup(); renderField(); renderRotations(); renderSummary(); renderDugout(); renderBench();}
+function resetRoster(){state.roster=[...TEAM_ROSTER]; rerender(); autosave();}
+function copyStart(){ensureInnings(); POSITIONS.forEach(p=>state.innings[0][p]=state.field[p]||""); rerender(); autosave();}
+function autoBench(){collect(); ensureInnings(); const players=state.roster.filter(Boolean); const slots=Math.max(players.length-9,1); let order=[...players]; for(let i=0;i<state.innings.length;i++){const bench=order.slice(0,slots); state.innings[i].bench=bench.join(", "); order=order.slice(slots).concat(bench);} rerender(); autosave();}
+function exportBackup(){collect(); const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="maine-lightning-lineup-pro-backup.json"; a.click(); URL.revokeObjectURL(a.href);}
+function importBackup(file){const r=new FileReader(); r.onload=e=>{try{Object.assign(state, JSON.parse(e.target.result)); save(true); rerender(); alert("Backup imported.");}catch(err){alert("That file could not be imported.");}}; r.readAsText(file);}
+function resetApp(){if(!confirm("Reset the app and erase saved lineup data on this device?")) return; localStorage.removeItem(STORAGE_KEY); location.reload();}
+function setupTabs(){document.querySelectorAll(".tabbtn").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll(".tabbtn").forEach(b=>b.classList.remove("active")); document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active")); btn.classList.add("active"); document.getElementById(btn.dataset.tab).classList.add("active"); window.scrollTo({top:0,behavior:"smooth"});}));}
+loadState();
+window.addEventListener("DOMContentLoaded",()=>{setupTabs(); rerender(); ["teamName","opponent","gameDate","gameTime","location","inningCount","gameNotes"].forEach(id=>{document.getElementById(id).addEventListener("change",()=>{if(id==="inningCount"){collect(); ensureInnings(); renderRotations();} autosave();}); document.getElementById(id).addEventListener("input",autosave);}); document.getElementById("saveBtn").addEventListener("click",()=>save(false)); document.getElementById("resetBtn").addEventListener("click",resetApp); document.getElementById("exportBtn").addEventListener("click",exportBackup); document.getElementById("importBtn").addEventListener("click",()=>document.getElementById("importFile").click()); document.getElementById("importFile").addEventListener("change",e=>{if(e.target.files[0]) importBackup(e.target.files[0]);}); document.getElementById("addPlayerBtn").addEventListener("click",()=>{collect(); state.roster.push(""); rerender();}); document.getElementById("resetRosterBtn").addEventListener("click",resetRoster); document.getElementById("copyStartToInning1").addEventListener("click",copyStart); document.getElementById("buildRotationBtn").addEventListener("click",()=>{collect(); ensureInnings(); renderRotations(); renderBench(); renderDugout(); autosave();}); document.getElementById("autoBenchBtn").addEventListener("click",autoBench);});
+</script>
+</body>
+</html>
